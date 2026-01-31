@@ -15,7 +15,7 @@ class PermissionController extends Controller
     public function index()
     {
         // permission list view
-        $permissions  = Permission::latest()->get();
+        $permissions  = Permission::paginate(25);
         return view('admin.permissions.index', compact('permissions'));
     }
 
@@ -34,7 +34,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request)
     {
         // permission store logic
-        return $data = $request->validated();
+        $data = $request->validated();
         Permission::create($data);
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
@@ -42,32 +42,39 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Permission $permission)
     {
-        //
+        // view the single permission by id 
+        return view('admin.permissions.show', compact('permission'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Permission $permission)
     {
-        //
+        // edit permission view
+        return view('admin.permissions.edit', compact('permission'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PermissionRequest $request, Permission $permission)
     {
-        //
+        // update the permission logic
+        $data = $request->validated();
+        $permission->update($data);
+        return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
-        //
+        // delete the permission by id
+        $permission->delete();
+        return redirect()->route('permissions.index')->with('success', 'Permission deleted successfully.');
     }
 }

@@ -27,53 +27,69 @@
                                     <div class="card-header d-flex align-items-center">
                                         <h3 class="card-title flex-grow-1">Permissions List</h3>
                                         <a href="{{ route('permissions.create') }}" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-plus-circle"></i> Create
+                                            <i class="bi bi-plus-circle"></i> Permission Create
                                         </a>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
+
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10px">SL</th>
-                                                    <th style="width: 90%">Name</th>
+                                                    <th style="width: 90%">Permission Name</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="align-middle">
-                                                    <td>1.</td>
-                                                    <td>Update software</td>
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <button type="button"
-                                                                class="btn btn-primary dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                                Actions
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a class="dropdown-item" href="#">View</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </li>
-                                                                <li>
-                                                                    <hr class="dropdown-divider" />
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="#">Separated
-                                                                        link</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
+                                                @foreach ($permissions as $permission)
+                                                    <tr class="align-middle">
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $permission->name }}</td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button type="button"
+                                                                    class="btn btn-primary dropdown-toggle"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a class="dropdown-item"
+                                                                            href="{{ route('permissions.show', $permission->id) }}"><i
+                                                                                class="bi bi-eye"></i> View</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item"
+                                                                            href="{{ route('permissions.edit', $permission->id) }}"><i
+                                                                                class="bi bi-pencil"></i> Edit</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <form
+                                                                            action="{{ route('permissions.destroy', $permission->id) }}"
+                                                                            method="post">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <a class="dropdown-item" href="#"
+                                                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this?')) {this.closest('form').submit();}"><i
+                                                                                    class="bi bi-trash"></i> Delete</a>
+                                                                        </form>
+                                                                    </li>
+                                                                    <li>
+                                                                        <hr class="dropdown-divider" />
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item"
+                                                                            href="#">Separated
+                                                                            link</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
+
                                     </div>
                                     <!-- /.card-body -->
                                     <div class="card-footer clearfix">

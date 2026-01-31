@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PermissionRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,20 @@ class PermissionRequest extends FormRequest
      */
     public function rules(): array
     {
-        // for update permission id ignore unique validation
-        $permissionId = $this->route('permission')?->id;
+        $roleId = $this->route('role')?->id;
         return [
-            // permission validation rules
+            // role validation rules create and update
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                // 'unique.permissions,name, . $permissionId,
-                Rule::unique('permissions', 'name')->ignore($permissionId),
+                // 'unique:roles,name,' . $roleId,
+                Rule::unique('roles', 'name')->ignore($roleId),
             ],
+            'guard_name' => 'nullable|string',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,name',
+
         ];
     }
 }

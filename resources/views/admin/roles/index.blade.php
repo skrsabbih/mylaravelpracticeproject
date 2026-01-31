@@ -1,105 +1,138 @@
-@include('admindashboardlayout.header')
+    @include('admindashboardlayout.header')
 
-<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
-    <!--begin::App Wrapper-->
-    <div class="app-wrapper">
-        <!--begin::Header-->
-        <nav class="app-header navbar navbar-expand bg-body">
-            <!--begin::Container-->
-            <div class="container-fluid">
-                <!--begin::Start Navbar Links-->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                            <i class="bi bi-list"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!--end::Start Navbar Links-->
-                <!--begin::End Navbar Links-->
-                <ul class="navbar-nav ms-auto">
-                    <!--begin::Navbar Search-->
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                            <i class="bi bi-search"></i>
-                        </a>
-                    </li>
-                    <!--end::Navbar Search-->
-                    <!--begin::Messages Dropdown Menu-->
+    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+        <!--begin::App Wrapper-->
+        <div class="app-wrapper">
 
-                    <!--end::Notifications Dropdown Menu-->
-                    <!--begin::Fullscreen Toggle-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-lte-toggle="fullscreen">
-                            <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
-                            <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
-                        </a>
-                    </li>
-                    <!--end::Fullscreen Toggle-->
-                    <!--begin::User Menu Dropdown-->
-                    <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="./assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow"
-                                alt="User Image" />
-                            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <!--begin::User Image-->
-                            <li class="user-header text-bg-primary">
-                                <img src="./assets/img/user2-160x160.jpg" class="rounded-circle shadow"
-                                    alt="User Image" />
-                                <p>
-                                    {{ Auth::user()->name }} - Web Developer
-                                    <small>Member since Aug. 2025</small>
-                                </p>
-                            </li>
-                            <!--end::User Image-->
+            @include('admindashboardlayout.menubar')
 
-                            <!--begin::Menu Footer-->
-                            <li class="user-footer">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                <a href="#" class="btn btn-default btn-flat float-end"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign
-                                    out</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                </form>
-                            </li>
-                            <!--end::Menu Footer-->
-                        </ul>
-                    </li>
-                    <!--end::User Menu Dropdown-->
-                </ul>
-                <!--end::End Navbar Links-->
-            </div>
-            <!--end::Container-->
-        </nav>
-        <!--end::Header-->
+            @include('admindashboardlayout.sidebar')
 
-        @include('admindashboardlayout.sidebar')
-
-        <!--begin::App Main-->
-        <main class="app-main">
-            <!--begin::App Content Header-->
-            <div class="app-content-header">
-                <!--begin::Container-->
-                <div class="container-fluid">
+            <!--begin::App Main-->
+            <main class="app-main">
+                <!--begin::App Content Header-->
+                <div class="app-content-header">
+                    <!--begin::Container-->
+                    <div class="container-fluid">
+                    </div>
+                    <!--end::Container-->
                 </div>
-                <!--end::Container-->
-            </div>
-            <div class="app-content">
-                <!--begin::Container-->
-                <div class="container-fluid">
+                <div class="app-content">
+                    <!--begin::Container-->
+                    <div class="container-fluid">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mb-4">
+                                    <div class="card-header d-flex align-items-center">
+                                        <h3 class="card-title flex-grow-1">Roles List</h3>
+                                        <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-plus-circle"></i> Role Create
+                                        </a>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">SL</th>
+                                                    <th style="width: 20%">Role Name</th>
+                                                    <th style="width: 80%">Permission Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($roles as $role)
+                                                    <tr class="align-middle">
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $role->name }}</td>
+                                                        <td>
+                                                            @foreach ($role->permissions as $permission)
+                                                                <span class="badge text-bg-info">
+                                                                    {{ $permission->name }}
+                                                                </span>
+                                                            @endforeach
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button type="button"
+                                                                    class="btn btn-primary dropdown-toggle"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu">
+                                                                    <li><a class="dropdown-item" href="{{route('roles.show', $role->id)}}"><i
+                                                                                class="bi bi-eye"></i> View</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="{{route('roles.edit', $role->id)}}"><i
+                                                                                class="bi bi-pencil"></i> Edit</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <form action="{{ route('roles.destroy', $role->id) }}" method="post">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <a class="dropdown-item" href="#"
+                                                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this?')) {this.closest('form').submit();}"><i
+                                                                                    class="bi bi-trash"></i> Delete</a>
+                                                                        </form>
+                                                                    </li>
+                                                                    <li>
+                                                                        <hr class="dropdown-divider" />
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item"
+                                                                            href="#">Separated
+                                                                            link</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer clearfix">
+                                        <ul class="pagination pagination-sm m-0 float-end">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">&laquo;</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /.card -->
 
 
+                                <!-- /.card -->
+                            </div>
+
+                        </div>
+                        <!--end::Row-->
+                    </div>
+                    <!--end::Container-->
                 </div>
-                <!--end::Container-->
-            </div>
-            <!--end::App Content-->
-        </main>
-        <!--end::App Main-->
-        @include('admindashboardlayout.footer')
-    </div>
-    <!--end::App Wrapper-->
-    @include('admindashboardlayout.script')
-</body>
+                <!--end::App Content-->
+            </main>
+            <!--end::App Main-->
+            @include('admindashboardlayout.footer')
+        </div>
+        <!--end::App Wrapper-->
+        @include('admindashboardlayout.script')
+    </body>
