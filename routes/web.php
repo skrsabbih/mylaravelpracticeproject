@@ -17,10 +17,8 @@ Route::post('/register', [AuthController::class, 'registerStore'])->name('regist
 // user login route get and post
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store');
-// after login dashboard route
 
-
-// admin dashboard and user management routes can be added in group route with middleware auth and role:admin
+// admin dashboard and user management routes can be added in group route with middleware auth
 
 Route::middleware(['auth'])->group(function () {
     // dashboard
