@@ -44,7 +44,8 @@
                         <img src="{{ asset('assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow"
                             alt="User Image" />
                         <p>
-                            {{ Auth::user()->name }} - Web Developer
+                            {{ Auth::user()->name }} - Web Developer - Role is:
+                            {{ Auth::user()->getRoleNames()->join(', ') }}
                             <small>Member since Aug. 2025</small>
                         </p>
                     </li>
