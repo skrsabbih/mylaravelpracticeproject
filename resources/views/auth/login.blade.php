@@ -52,6 +52,9 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <a href="{{ route('forgot-password') }}">Forgot Password?</a>
+            </div>
             <button type="submit" class="btn btn-primary">Login</button>
 
         </form>
