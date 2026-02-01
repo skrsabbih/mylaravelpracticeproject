@@ -25,9 +25,9 @@
                             <div class="col-md-12">
                                 <div class="card mb-4">
                                     <div class="card-header d-flex align-items-center">
-                                        <h3 class="card-title flex-grow-1">Roles List</h3>
-                                        <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-plus-circle"></i> Role Create
+                                        <h3 class="card-title flex-grow-1">Users List</h3>
+                                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-plus-circle"></i> User Create
                                         </a>
                                     </div>
                                     <!-- /.card-header -->
@@ -37,20 +37,22 @@
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10px">SL</th>
-                                                    <th style="width: 20%">Role Name</th>
-                                                    <th style="width: 80%">Permission Name</th>
+                                                    <th style="width: 20%">User Name</th>
+                                                    <th style="width: 20%">User Email</th>
+                                                    <th style="width: 60%">Role Name</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($roles as $role)
+                                                @foreach ($users as $user)
                                                     <tr class="align-middle">
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $role->name }}</td>
+                                                        <td>{{ $user->name }}</td>
+                                                        <td>{{ $user->email }}</td>
                                                         <td>
-                                                            @foreach ($role->permissions as $permission)
+                                                            @foreach ($user->roles as $role)
                                                                 <span class="badge text-bg-info">
-                                                                    {{ $permission->name }}
+                                                                    {{ $role->name }}
                                                                 </span>
                                                             @endforeach
                                                         </td>
@@ -64,17 +66,17 @@
                                                                 </button>
                                                                 <ul class="dropdown-menu">
                                                                     <li><a class="dropdown-item"
-                                                                            href="{{ route('roles.show', $role->id) }}"><i
+                                                                            href="{{ route('users.show', $user->id) }}"><i
                                                                                 class="bi bi-eye"></i> View</a>
                                                                     </li>
                                                                     <li>
                                                                         <a class="dropdown-item"
-                                                                            href="{{ route('roles.edit', $role->id) }}"><i
+                                                                            href="{{ route('users.edit', $user->id) }}"><i
                                                                                 class="bi bi-pencil"></i> Edit</a>
                                                                     </li>
                                                                     <li>
                                                                         <form
-                                                                            action="{{ route('roles.destroy', $role->id) }}"
+                                                                            action="{{ route('users.destroy', $user->id) }}"
                                                                             method="post">
                                                                             @csrf
                                                                             @method('DELETE')

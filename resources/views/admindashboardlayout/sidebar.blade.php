@@ -5,7 +5,8 @@
         <!--begin::Brand Link-->
         <a href="{{ route('dashboard') }}" class="brand-link">
             <!--begin::Brand Image-->
-            <img src="{{asset('assets/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
+            <img src="{{ asset('assets/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                class="brand-image opacity-75 shadow" />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
             <span class="brand-text fw-light">AdminLTE 4</span>
@@ -50,7 +51,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./widgets/cards.html" class="nav-link">
+                            <a href="{{ route('users.index') }}"
+                                class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Users</p>
                             </a>

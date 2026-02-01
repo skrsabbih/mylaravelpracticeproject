@@ -37,7 +37,7 @@
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10px">SL</th>
-                                                    <th style="width: 90%">Permission Name</th>
+                                                    <th style="width: 100%">Permission Name</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>

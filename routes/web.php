@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('permissions', PermissionController::class);
     // admin role crud routes
     Route::resource('roles', RoleController::class);
+    // user management routes
+    Route::resource('users', UserController::class);
 });
 
 // user logout route
