@@ -46,13 +46,7 @@ class AuthController extends Controller
             // authentication passed and regenerate session id for browser cookie and redirect page after login
             $request->session()->regenerate();
 
-            // only for admin role redirect to the admin dashboard
-            if (!Auth::user()->hasRole('admin')) {
-                Auth::logout();
-                return back()->withErrors([
-                    'email' => 'You do not have admin access.'
-                ]);
-            }
+            
 
             return redirect()->route('dashboard');
         }

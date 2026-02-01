@@ -26,9 +26,11 @@
                                 <div class="card mb-4">
                                     <div class="card-header d-flex align-items-center">
                                         <h3 class="card-title flex-grow-1">Users List</h3>
-                                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-plus-circle"></i> User Create
-                                        </a>
+                                        @role(['admin', 'operator'])
+                                            <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-plus-circle"></i> User Create
+                                            </a>
+                                        @endrole
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -69,22 +71,26 @@
                                                                             href="{{ route('users.show', $user->id) }}"><i
                                                                                 class="bi bi-eye"></i> View</a>
                                                                     </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="{{ route('users.edit', $user->id) }}"><i
-                                                                                class="bi bi-pencil"></i> Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <form
-                                                                            action="{{ route('users.destroy', $user->id) }}"
-                                                                            method="post">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <a class="dropdown-item" href="#"
-                                                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this?')) {this.closest('form').submit();}"><i
-                                                                                    class="bi bi-trash"></i> Delete</a>
-                                                                        </form>
-                                                                    </li>
+                                                                    @role(['admin', 'operator'])
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('users.edit', $user->id) }}"><i
+                                                                                    class="bi bi-pencil"></i> Edit</a>
+                                                                        </li>
+                                                                    @endrole
+                                                                    @role('admin')
+                                                                        <li>
+                                                                            <form
+                                                                                action="{{ route('users.destroy', $user->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <a class="dropdown-item" href="#"
+                                                                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this?')) {this.closest('form').submit();}"><i
+                                                                                        class="bi bi-trash"></i> Delete</a>
+                                                                            </form>
+                                                                        </li>
+                                                                    @endrole
                                                                     <li>
                                                                         <hr class="dropdown-divider" />
                                                                     </li>

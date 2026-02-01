@@ -22,7 +22,7 @@ Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store'
 
 // admin dashboard and user management routes can be added in group route with middleware auth and role:admin
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // dashboard
     Route::get('/dashboard', fn() => view('auth.dashboard'))->name('dashboard');
     // admin permission crud routes

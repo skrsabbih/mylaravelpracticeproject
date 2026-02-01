@@ -26,9 +26,11 @@
                                 <div class="card mb-4">
                                     <div class="card-header d-flex align-items-center">
                                         <h3 class="card-title flex-grow-1">Roles List</h3>
-                                        <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-plus-circle"></i> Role Create
-                                        </a>
+                                        @role(['admin', 'operator'])
+                                            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-plus-circle"></i> Role Create
+                                            </a>
+                                        @endrole
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -67,22 +69,26 @@
                                                                             href="{{ route('roles.show', $role->id) }}"><i
                                                                                 class="bi bi-eye"></i> View</a>
                                                                     </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="{{ route('roles.edit', $role->id) }}"><i
-                                                                                class="bi bi-pencil"></i> Edit</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <form
-                                                                            action="{{ route('roles.destroy', $role->id) }}"
-                                                                            method="post">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <a class="dropdown-item" href="#"
-                                                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this?')) {this.closest('form').submit();}"><i
-                                                                                    class="bi bi-trash"></i> Delete</a>
-                                                                        </form>
-                                                                    </li>
+                                                                    @role(['admin', 'operator'])
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('roles.edit', $role->id) }}"><i
+                                                                                    class="bi bi-pencil"></i> Edit</a>
+                                                                        </li>
+                                                                    @endrole
+                                                                    @role('admin')
+                                                                        <li>
+                                                                            <form
+                                                                                action="{{ route('roles.destroy', $role->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <a class="dropdown-item" href="#"
+                                                                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this?')) {this.closest('form').submit();}"><i
+                                                                                        class="bi bi-trash"></i> Delete</a>
+                                                                            </form>
+                                                                        </li>
+                                                                    @endrole
                                                                     <li>
                                                                         <hr class="dropdown-divider" />
                                                                     </li>
