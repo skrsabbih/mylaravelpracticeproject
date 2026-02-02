@@ -7,7 +7,10 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -46,7 +49,7 @@ class AuthController extends Controller
             // authentication passed and regenerate session id for browser cookie and redirect page after login
             $request->session()->regenerate();
 
-            
+
 
             return redirect()->route('dashboard');
         }
@@ -67,5 +70,28 @@ class AuthController extends Controller
     public function showForgotPasswordForm()
     {
         return view('auth.forgot-password');
+    }
+
+    public function forgotPasswordStore(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        // $token = Str::random(64);
+        // DB::table('password_reset_tokens')->updateOrInsert(
+        //     ['email' => $request->email],
+        //     [
+        //         'token' => hash('skr101', $token),
+        //         'created_at' => now(),
+        //     ]
+        // );
+
+        // $link = url('/reset-password/'.$token.'?emial='.$request->email);
+
+        $status = Password::sendResetLink($request->only('email'));
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['success' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 }

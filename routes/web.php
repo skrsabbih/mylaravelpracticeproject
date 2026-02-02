@@ -20,6 +20,7 @@ Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store'
 
 // user forgot password route get and post
 Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('forgot-password');
+Route::post('/forgot-password', [AuthController::class, 'forgotPasswordStore'])->name('forgot-password.store');
 
 // admin dashboard and user management routes can be added in group route with middleware auth
 
