@@ -4,59 +4,71 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Practice | Forgot Password</title>
+    <title>My Practice | Recover Password</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
-    <link rel="stylesheet" href="{{ asset('/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css?v=3.2.0">
     
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{route('login')}}"><b>Forgot</b>Password</a>
+            <a href="{{ route('login') }}"><b>Recover</b>Password</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+                <p class="login-box-msg">You are only one step a way from your new password, recover your password now.
+                </p>
 
-                @if($errors->any())
+                @if ($errors->any())
                     <div class="btn btn-danger mb-2">
                         <ul>
-                            @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
 
-                <form action="{{route('forgot-password.store')}}" method="post">
+                <form action="{{ route('password.update') }}" method="POST">
                     @csrf
+
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    <input type="hidden" name="email" value="{{ $email }}">
+
                     <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email">
-                        
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password_confirmation" class="form-control"
+                            placeholder="Confirm Password">
+                        <div class="input-group-append">
+
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Request new password</button>
+                            <button type="submit" class="btn btn-primary btn-block">Change password</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
                 <p class="mt-3 mb-1">
-                    <a href="{{route('login')}}">Login</a>
+                    <a href="{{ route('login') }}">Login</a>
                 </p>
-                
             </div>
             <!-- /.login-card-body -->
         </div>
