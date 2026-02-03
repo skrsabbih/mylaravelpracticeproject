@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\resetPasswordRequest;
 use App\Models\User;
+use App\Notifications\ResetPasswordQueued;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -77,10 +78,22 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users,email',
         ]);
 
-        $status = Password::sendResetLink($request->only('email'));
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['success' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            // $token = app('auth.password.broker')->createToken($user);
+            $token  = Password::borker()->createToken($user);
+            $user->notify(new ResetPasswordQueued($token));
+        }
+
+        return back()->with('success', 'We have e-mailed your password reset link!')
+            ->withErrors([]);
+
+        // sendResetLink is auto link genarate and send to mail
+
+        // $status = Password::sendResetLink($request->only('email'));
+        // return $status === Password::RESET_LINK_SENT
+        //     ? back()->with(['success' => __($status)])
+        //     : back()->withErrors(['email' => __($status)]);
     }
 
     public function showResetPasswordForm(Request $request, $token)

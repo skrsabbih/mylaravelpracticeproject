@@ -39,6 +39,14 @@
                     </div>
                 @endif
 
+                @if(session('success'))
+                    <div class="btn btn-success mb-2">
+                        <ul>
+                            <li>{{ session('success') }}</li>
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{route('forgot-password.store')}}" method="post">
                     @csrf
                     <div class="input-group mb-3">
