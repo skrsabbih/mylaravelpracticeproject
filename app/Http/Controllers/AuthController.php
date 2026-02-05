@@ -80,8 +80,8 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if ($user) {
-            // $token = app('auth.password.broker')->createToken($user);
-            $token  = Password::borker()->createToken($user);
+            $token = app('auth.password.broker')->createToken($user);
+            // $token  = Password::borker()->createToken($user);
             $user->notify(new ResetPasswordQueued($token));
         }
 

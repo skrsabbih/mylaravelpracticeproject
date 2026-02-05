@@ -49,6 +49,12 @@ class User extends Authenticatable
         ];
     }
 
+    // relations with profile
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
