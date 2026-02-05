@@ -21,6 +21,10 @@
             request()->routeIs('permissions.*') || request()->routeIs('roles.*') || request()->routeIs('users.*');
     @endphp
 
+    @php
+        $studentManagementOpen = request()->routeIs('students.*');
+    @endphp
+
     <div class="sidebar-wrapper">
         <nav class="mt-2">
             <!--begin::Sidebar Menu-->
@@ -55,6 +59,27 @@
                                 class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Users</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- student Management --}}
+
+                <li class="nav-item {{ $studentManagementOpen ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ $studentManagementOpen ? 'active' : '' }} ">
+                        <i class="nav-icon bi bi-box-seam-fill"></i>
+                        <p>
+                            Student Management
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('students.index') }}"
+                                class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }} ">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Students</p>
                             </a>
                         </li>
                     </ul>
