@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ExternalApiController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/external-posts', [ExternalApiController::class, 'index']);
     // save for the 3rd party api route
     Route::post('/external-posts/save', [ExternalApiController::class, 'postsave']);
+
+    // payment gateway
+    Route::post('/payment/initiate', [PaymentController::class, 'initiate']);
+
+    Route::post('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::post('/payment/fail', [PaymentController::class, 'fail'])->name('payment.fail');
+    Route::post('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
