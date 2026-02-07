@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -22,4 +24,36 @@ class AuthController extends Controller
             'token' => $token
         ]);
     }
+
+    // login
+    public function login(LoginRequest $request)
+    {
+        $data = $request->validated();
+
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user || ! Hash::check($data['password'], $user->password)) {
+            return response()->json([
+                'message' => 'The email or password do not match our records.',
+            ], 401);
+        }
+
+        $token = $user->createToken('postman')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
+    }
+    
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logout Successfully',
+        ]);
+    }
+
+
 }
