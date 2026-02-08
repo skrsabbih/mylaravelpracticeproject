@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -43,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     // student management routes
     Route::resource('students', StudentController::class);
+    // category management routes
+    Route::resource('categories', CategoryController::class);
+    // product management routes
+    Route::resource('products', ProductController::class);
 });
 
 // user logout route

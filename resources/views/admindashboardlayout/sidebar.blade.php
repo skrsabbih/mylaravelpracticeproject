@@ -25,6 +25,10 @@
         $studentManagementOpen = request()->routeIs('students.*');
     @endphp
 
+    @php
+        $categoryManagementOpen = request()->routeIs('categories.*') || request()->routeIs('products.*');
+    @endphp
+
     <div class="sidebar-wrapper">
         <nav class="mt-2">
             <!--begin::Sidebar Menu-->
@@ -80,6 +84,34 @@
                                 class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }} ">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Students</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- category management --}}
+
+                <li class="nav-item {{ $categoryManagementOpen ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ $categoryManagementOpen ? 'active' : '' }} ">
+                        <i class="nav-icon bi bi-box-seam-fill"></i>
+                        <p>
+                            Product Management
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('categories.index')}}"
+                                class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }} ">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Categories</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('products.index')}}"
+                                class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }} ">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Products</p>
                             </a>
                         </li>
                     </ul>

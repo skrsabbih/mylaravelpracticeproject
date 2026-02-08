@@ -15,4 +15,8 @@ class Order extends Model
         'status',
         'payment_info',
     ];
+
+    protected $casts = [
+        'payment_info' => 'array',
+    ];
 }

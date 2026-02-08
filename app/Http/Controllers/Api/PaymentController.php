@@ -42,6 +42,8 @@ class PaymentController extends Controller
             'fail_url' => route('payment.fail'),
             'cancel_url' => route('payment.cancel'),
 
+            'ipn_url' => route('payment.ipn'),
+
             'cus_name'      => $request->user()->name,
             'cus_email'     => $request->user()->email,
             'cus_phone'     => '01700000000',
@@ -75,12 +77,34 @@ class PaymentController extends Controller
         }
 
         $order->update([
-            'status' => 'success'
+            'status' => 'success',
+            'payment_info' => $request->all(),
         ]);
 
         return response()->json([
             'message' => 'Payment successfully',
             'order' => $order
         ]);
+    }
+
+    public function ipn(Request $request)
+    {
+
+        \Log::info('IPN HIT', $request->all());
+
+        $order = Order::where('tran_id', $request->tran_id)->first();
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'Order not found',
+            ], 404);
+        }
+
+        $order->update([
+            'status' => $request->status === 'VALID' ? 'success' : 'failed',
+            'payment_info' => $request->all(),
+        ]);
+
+        return response('IPN Received', 200);
     }
 }

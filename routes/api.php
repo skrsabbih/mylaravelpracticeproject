@@ -26,8 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // payment gateway
     Route::post('/payment/initiate', [PaymentController::class, 'initiate']);
-
-    Route::post('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::post('/payment/fail', [PaymentController::class, 'fail'])->name('payment.fail');
-    Route::post('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
+Route::post('/payment/ipn', [PaymentController::class, 'ipn'])->name('payment.ipn');
+Route::post('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::post('/payment/fail', [PaymentController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
