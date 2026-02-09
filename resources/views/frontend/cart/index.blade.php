@@ -59,7 +59,24 @@
                                         alt="" srcset="" width="40" height="40">
                                 @endif
                             </td>
-                            <td>{{ $item['quantity'] }}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <form action="{{ route('cart.decrese', $item['id']) }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-sm btn-outline-secondary">−</button>
+                                    </form>
+
+                                    <span class="fw-bold">{{ $item['quantity'] }}</span>
+
+                                    <form action="{{ route('cart.increase', $item['id']) }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-sm btn-outline-secondary">+</button>
+                                    </form>
+
+                                </div>
+
+                            </td>
                             <td>৳ {{ $total }}</td>
                             <td>
                                 <form action="{{ route('cart.remove', $item['id']) }}" method="POST">

@@ -43,4 +43,27 @@ class CartController extends Controller
         }
         return redirect()->route('cart.index')->with('success', 'Product removed from cart successfully!');
     }
+
+    public function increase(Request $request, Product $product)
+    {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$product->id])) {
+            $cart[$product->id]['quantity']++;
+            session()->put('cart', $cart);
+        }
+        return redirect()->back();
+    }
+
+    public function decrese(Request $request, Product $product)
+    {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$product->id])) {
+            if ($cart[$product->id]['quantity'] > 1) {
+                $cart[$product->id]['quantity']--;
+                session()->put('cart', $cart);
+            }
+        }
+
+        return redirect()->back();
+    }
 }

@@ -25,6 +25,9 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 // remove cart for this product route
 Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+// product cart increse and decrese route
+Route::post('/cart/increase/{product}', [CartController::class, 'increase'])->name('cart.increase');
+Route::post('/cart/decrese/{product}', [CartController::class, 'decrese'])->name('cart.decrese');
 // user registration route get and post
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'registerStore'])->name('register.store');

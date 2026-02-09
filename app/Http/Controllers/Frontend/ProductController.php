@@ -12,6 +12,7 @@ class ProductController extends Controller
     // product index page
     public function index(Request $request)
     {
+        $cart = session()->get('cart', []);
         $categories = Category::all();
         // product query 
         $productsQuery = Product::with('category');
@@ -20,16 +21,17 @@ class ProductController extends Controller
             $productsQuery->where('category_id', $request->category);
         }
         $products = $productsQuery->latest()->paginate(25);
-        return view('frontend.products.index', compact('categories', 'products'));
+        return view('frontend.products.index', compact('categories', 'products', 'cart'));
     }
 
     public function show(Product $product)
     {
+        $cart = session()->get('cart', []);
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->latest()
             ->take(4)
             ->get();
-        return view('frontend.products.show', compact('product', 'relatedProducts'));
+        return view('frontend.products.show', compact('product', 'relatedProducts', 'cart'));
     }
 }

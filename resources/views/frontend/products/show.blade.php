@@ -28,6 +28,9 @@
             <a class="navbar-brand fw-bold" href="{{ route('home') }}">
                 MyShop
             </a>
+            <a href="{{ route('cart.index') }}" class="btn btn-outline-light">
+                Cart({{ count(session('cart', [])) }})
+            </a>
         </div>
     </nav>
 
