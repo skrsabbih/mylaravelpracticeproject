@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -49,32 +50,48 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        // product view page by id
+        $categories = Category::all();
+        return view('admin.products.show', compact('product', 'categories'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        // edit product form
+        $categories = Category::all();
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        // update the product
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            if ($product->image) Storage::delete($product->image);
+            $data['image'] = $request->file('image')->store('products', 'public');
+        }
+
+        $product->update($data);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        // delete the product by id
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }

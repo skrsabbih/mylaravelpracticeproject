@@ -7,13 +7,24 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// product index page
+Route::get('/', [FrontendProductController::class, 'index'])->name('home');
+// product details page
+Route::get('/product/details/{product}', [FrontendProductController::class, 'show'])->name('product.show');
+// cart for this product route
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+// cart for this product route
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+// remove cart for this product route
+Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 // user registration route get and post
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'registerStore'])->name('register.store');
